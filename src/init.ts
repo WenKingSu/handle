@@ -1,9 +1,9 @@
-import { initialized, markEnd, markStart, meta, pauseTimer } from './storage'
-import { answer, dayNo, daySince, isDev, isFinished, isPassed, showCheatSheet, showHelp } from './state'
-import { t } from './i18n'
-import { answers } from './answers/list'
-import { START_DATE } from './logic/constants'
-import { tryFixAnswer } from './logic/answer-fix'
+import {initialized, markEnd, markStart, meta, pauseTimer} from './storage'
+import {answer, dayNo, daySince, isDev, isFinished, isPassed, showCheatSheet, showHelp} from './state'
+import {t} from './i18n'
+import {answers} from './answers/list'
+import {START_DATE} from './logic/constants'
+import {tryFixAnswer} from './logic/answer-fix'
 
 useTitle(computed(() => `${t('name')} - ${t('description')}`))
 
@@ -24,13 +24,13 @@ watch(daySince, (n, o) => {
 watch([isFinished, meta], () => {
   if (isFinished.value)
     markEnd()
-    // sendAnalytics()
-}, { flush: 'post' })
+  // sendAnalytics()
+}, {flush: 'post'})
 
 watch(isFinished, (v) => {
   if (v)
     showCheatSheet.value = false
-}, { flush: 'post' })
+}, {flush: 'post'})
 
 const visible = useDocumentVisibility()
 
@@ -45,12 +45,11 @@ watchEffect(() => {
     // restart timer
     if (meta.value.duration)
       markStart()
-  }
-  else if (visible.value === 'hidden') {
+  } else if (visible.value === 'hidden') {
     leaveTime = Date.now()
     pauseTimer()
   }
-}, { flush: 'post' })
+}, {flush: 'post'})
 
 nextTick(() => {
   // if (acceptCollecting.value)
@@ -65,11 +64,11 @@ if (isDev || import.meta.hot) {
   console.log(`D${dayNo.value}`, theDate.toLocaleDateString(), answer.value.word, answer.value.hint)
 }
 
-if (import.meta.hot) {
-  // eslint-disable-next-line no-console
-  console.log(`${answers.length} days prepared`)
-  // eslint-disable-next-line no-console
-  console.log(`${answers.length - dayNo.value} days left`)
-  if ((answers.length - daySince.value) < 10)
-    throw new Error('Not enough days left!')
-}
+// if (import.meta.hot) {
+//   // eslint-disable-next-line no-console
+//   console.log(`${answers.length} days prepared`)
+//   // eslint-disable-next-line no-console
+//   console.log(answers.length)
+//   if ((answers.length - daySince.value) < 10)
+//     throw new Error('Not enough days left!')
+// }

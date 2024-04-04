@@ -1,14 +1,24 @@
-import { breakpointsTailwind } from '@vueuse/core'
-import type { MatchType, ParsedChar } from './logic'
-import { START_DATE, TRIES_LIMIT, WORD_LENGTH, parseWord as _parseWord, testAnswer as _testAnswer, checkPass, getHint, isDstObserved, numberToHanzi } from './logic'
-import { useNumberTone as _useNumberTone, inputMode, meta, spMode, tries } from './storage'
-import { getAnswerOfDay } from './answers'
+import {breakpointsTailwind} from '@vueuse/core'
+import type {MatchType, ParsedChar} from './logic'
+import {
+  checkPass,
+  getHint,
+  isDstObserved,
+  numberToHanzi,
+  parseWord as _parseWord,
+  START_DATE,
+  testAnswer as _testAnswer,
+  TRIES_LIMIT,
+  WORD_LENGTH
+} from './logic'
+import {inputMode, meta, spMode, tries, useNumberTone as _useNumberTone} from './storage'
+import {getAnswerOfDay} from './answers'
 
 export const isIOS = /iPad|iPhone|iPod/.test(navigator.platform) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
 export const isMobile = isIOS || /iPad|iPhone|iPod|Android|Phone|webOS/i.test(navigator.userAgent)
 export const breakpoints = useBreakpoints(breakpointsTailwind)
 
-export const now = useNow({ interval: 1000 })
+export const now = useNow({interval: 1000})
 export const isDark = useDark()
 export const showHint = ref(false)
 export const showSettings = ref(false)
@@ -39,12 +49,12 @@ export const daySince = useDebounce(computed(() => {
 export const dayNo = ref(+(params.get('d') || daySince.value))
 export const dayNoHanzi = computed(() => `${numberToHanzi(dayNo.value)}日`)
 export const answer = computed(() =>
-  params.get('word')
-    ? {
-        word: params.get('word')!,
-        hint: getHint(params.get('word')!),
-      }
-    : getAnswerOfDay(dayNo.value),
+    params.get('word')
+        ? {
+          word: params.get('word')!,
+          hint: getHint(params.get('word')!),
+        }
+        : getAnswerOfDay(dayNo.value),
 )
 
 export const hint = computed(() => answer.value.hint)
@@ -80,8 +90,7 @@ export function getSymbolState(symbol?: string | number, key?: '_1' | '_2' | 'to
       if (key) {
         if (w[key] === symbol)
           results.push(r[key])
-      }
-      else {
+      } else {
         if (w._1 === symbol)
           results.push(r._1)
         if (w._2 === symbol)
